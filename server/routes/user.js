@@ -2,16 +2,14 @@ const express = require("express");
 const router = express.Router();
 const {
 
-  //getCartItems,
+  
   addUser,
-  //deleteItem,
- // increaseItemQuantity,
-  //decreaseItemQuantity,
+getUserDetails
 } = require("../controllers/user");
 
 
 
 // POST
-router.post("/register", addUser);
-
+router.post("/enter", addUser);
+router.get("/get", getUserDetails);
 module.exports = router;

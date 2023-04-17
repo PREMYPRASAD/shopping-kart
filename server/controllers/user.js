@@ -1,42 +1,40 @@
 const { db } = require("../config/config");
-
-const addUser = async (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
+const getUserDetails = async (req, res) => {
   try {
-    const result = await db.query(
-      ` INSERT INTO User (username,password) VALUES ($1, $2)`,
-      [username,password]
-    );
-    console.log(result);
-res.send(result)
-    //res.status(200).json(result);
+    const result = await db.query("SELECT * FROM users");
+    res.send(result);
+    console.log(result)
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.send("Error " + err);
   }
 };
-const checkUser = async (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    try {
-      
+const addUser = async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  console.log(username, password);
+  try {
+  
     const result = await db.query(
-      ` SELECT * FROM User WHERE username=$1 AND password=$2`,
-      [username,password]
+      'SELECT * FROM users WHERE user_name = ${username} AND user_password = ${password}',{username,password}    
     );
     console.log(result);
+    if (result.length > 0) {
+      res.send({ status: true, message: "success", data:result});
+    } else {
+      res.send({ message: "Wrong username or password" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+};
 
-    res.status(200).json(result);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
-  }
-};
+
 
 
 module.exports = {
-    //getCartItems,
-    addUser,
-    checkUser,
+  //getCartItems,
+  addUser,
+  getUserDetails
 }

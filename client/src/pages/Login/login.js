@@ -1,31 +1,107 @@
 import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import './login.css'
 import config from "../../utils/config.json";
 import axios from "axios";
- const Login = (props) => {
+import Navbar from "../../components/Navbar/navbar";
+import { useNavigate } from "react-router-dom";
+ function Login () {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-
+const [authenticated, setauthenticated] = useState(false);
+  const navigate = useNavigate();
     
-     const login = (e) => {
+     const login = async(e) => {
          e.preventDefault();
-         axios.post(`${config.api_base_url}/user/login`, { username: email, password: pass })
-             .then((response) => {
-                 console.log(response);
-             })
-     }
+         try {
+             const response = await axios.post(`${config.api_base_url}/user/enter`, { username: email, password: pass })
+         console.log("login",response);
+      if (response.status === 200) {
+        if (response.data.message ==='success') {
+          setauthenticated(true);
+          navigate("/home", { replace: true })
+          //navigate("/home");
+          
+        } else {
+          alert("Invalid credentials");
+          
+        }
+      } else {
+        alert("Request failed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+   
+     
 
-    return (
-        <div className="auth-form-container">
-            <h2>Login</h2>
-            <form className="login-form">
-                <label htmlFor="email">email</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)}type="text" placeholder="youremail@gmail.com" id="email" name="email" />
-                <label htmlFor="password">password</label>
-                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" />
-                <button type="submit" onClick={login}>Log In</button>
-            </form>
-            <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button>
-        </div>
-    )
+   return (
+     <div>
+       <Navbar />
+       <div className="container">
+         <form className="form" onSubmit={login}>
+         <h2>Login</h2>
+         <TextField
+            label="UserName"
+            variant="filled"
+            type="text"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />{" "}
+          &nbsp; &nbsp;
+         <TextField
+            label="Password"
+            variant="filled"
+            type="password"
+            required
+            value={pass}
+            onChange={(e) => setPass(e.target.value)}
+          />{" "}
+          &nbsp; &nbsp;
+          <Button type="submit" variant="contained" color="primary">
+            Login
+          </Button>
+        </form>
+         {/* <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button> */}
+       </div>
+     </div>
+   );
 }
 export default Login
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

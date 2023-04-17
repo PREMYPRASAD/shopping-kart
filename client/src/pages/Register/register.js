@@ -1,47 +1,66 @@
 import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Navbar from "../../components/Navbar/navbar";
+//import Footer from "../components/Footer/Footer"
 import axios from "axios";
-import config from "../../utils/config.json";
+import config from "../../utils/config";
+function Siginup() {
+  const [usernameReg, setusernameReg] = useState("");
+  const [passwordReg, setPasswordReg] = useState("");
 
- const Register = (props) => {
-    const [email, setEmail] = useState('');
-     const [pass, setPass] = useState('');
-     const [registerStatus, setRegisterStatus] = useState('');
-    //const [name, setName] = useState('');
-
-    
-        
-       // console.log(email);
-    
-     const register = (e) => {
-         e.preventDefault();
-         axios.post(`${config.api_base_url}/user/register`, { username: email, password: pass })
-             .then((response) => {
-                 console.log(response);
-                 if (response.data.message) {
-                     setRegisterStatus(response.data.message);
-                 } else {
-                     setRegisterStatus("Account created successfully");
-                 }
-             })
-     }
-    
-
-    return (
-        <div className="auth-form-container">
-            <h2>Register</h2>
-        <form className="register-form">
-                {/* <label htmlFor="name">Full name</label>
-            <input value={name} name="name" onChange={(e) => setName(e.target.value)} id="name" placeholder="full Name" />*/}
-            <label htmlFor="email">email</label> 
-            <input value={email} onChange={(e) => setEmail(e.target.value)}type="text" placeholder="enter username" id="email" name="email" />
-            <label htmlFor="password">password</label>
-            <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" />
-                <button type="submit" onClick={register}>Sign Up</button>
-                <h1 style={{color:'red', fontSize:'15px',textAlign:'center',marginTop:'20px'}}>{registerStatus}</h1>
-        </form>
-            <button className="link-btn" onClick={() => props.onFormSwitch('login')}>Already have an account? Login here.</button>
-            
-    </div>
-    )
+const signUp =()=>{
+    axios.post(`${config.api_base_url}/user/add`,
+    {username:usernameReg,
+    password:passwordReg
+    }).then((response)=>{
+        console.log(response)
+    })
 }
-export default Register
+  return (
+    <div>
+      <Navbar />
+      <div className="container" >
+        <form
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 150,
+            color: "white",
+          }}
+        >
+          <TextField
+            style={{ width: 400 }}
+            label="UserName"
+            variant="filled"
+            type="text"
+            required
+            value={usernameReg}
+            onChange={(e) => setusernameReg(e.target.value)}
+          />{" "}
+          &nbsp; &nbsp;
+          <TextField
+            style={{ width: 400 }}
+            label="Password"
+            variant="filled"
+            type="password"
+            required
+            value={passwordReg}
+            onChange={(e) => setPasswordReg(e.target.value)}
+          />{" "}
+          &nbsp; &nbsp;
+          <div>
+            <Button onClick={signUp} type="submit" variant="contained" color="primary">
+              Signup
+            </Button>
+          </div>
+        </form>
+      </div>
+      {/* <Footer /> */}
+    </div>
+  );
+}
+
+export default Siginup;
