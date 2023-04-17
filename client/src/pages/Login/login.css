@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 150px;
+    color: white;
+    /* margin-left: 30px; */
+    background-image: url(../../ASSETS/supermarket-banner-concept-with-ingredients.jpg);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: cover;
+
+}
+h2{
+    color: black;
+    font-weight: bold;
+    font: size 30px;
+}
+.form {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+}
+
+.text-success {
+    color: green;
+}
+
+.text-danger {
+    color: red;
+}
+
+.form input {
+    width: 300px;
+    background-color: rgb(245, 238, 242);
+}
+
+.form button {
+    margin-top: 20px;
+}

@@ -47,10 +47,16 @@ const Navbar = () => {
                 </div>
         </div>
             <div className="s2">
-                <Link to='/home'>Home</Link>
-                <a>Login In</a>
-                <a>Sign up</a>
-                <a>Contact Us</a>
+                <Link to='/home'>HOME</Link>
+                <Link to="/home"><div className="menuitems"></div></Link>
+        <Link to="/signup"><div to="/signup" className="menuitems">REGISTER</div></Link>
+        
+          
+          
+                {/* <a>Login In</a> */}
+                {/* <Link to='/signup'>Sign Up</Link> */}
+                {/* <a>Sign up</a> */}
+                <a>CONTACT US</a>
             </div>
             
         
