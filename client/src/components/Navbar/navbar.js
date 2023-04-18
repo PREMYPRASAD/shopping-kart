@@ -30,6 +30,7 @@ const Navbar = () => {
 
                     </button>
                 </div>
+                
             
             <div className='right'>
                 <div className='cart'>

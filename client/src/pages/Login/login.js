@@ -6,10 +6,13 @@ import config from "../../utils/config.json";
 import axios from "axios";
 import Navbar from "../../components/Navbar/navbar";
 import { useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+
  function Login () {
     const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
-const [authenticated, setauthenticated] = useState(false);
+   const [pass, setPass] = useState('');
+   const[isLogged, setIsLogged] = useState(false);
+
   const navigate = useNavigate();
     
      const login = async(e) => {
@@ -19,7 +22,7 @@ const [authenticated, setauthenticated] = useState(false);
          console.log("login",response);
       if (response.status === 200) {
         if (response.data.message ==='success') {
-          setauthenticated(true);
+          setIsLogged(true);
           navigate("/home", { replace: true })
           //navigate("/home");
           
@@ -39,7 +42,7 @@ const [authenticated, setauthenticated] = useState(false);
 
    return (
      <div>
-       <Navbar />
+       <Navbar  isLogged={setIsLogged} />
        <div className="container">
          <form className="form" onSubmit={login}>
          <h2>Login</h2>
