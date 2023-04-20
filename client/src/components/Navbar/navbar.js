@@ -49,10 +49,12 @@ const Navbar = () => {
         </div>
             <div className="s2">
                 <Link to='/home'>HOME</Link>
-                <Link to="/home"><div className="menuitems"></div></Link>
+                {/* <Link to="/home"><div className="menuitems"></div></Link> */}
         <Link to="/signup"><div to="/signup" className="menuitems">REGISTER</div></Link>
         
-          
+          <Link to="/logout">
+                <div className="menuitems">LogOut</div>
+              </Link>
           
                 {/* <a>Login In</a> */}
                 {/* <Link to='/signup'>Sign Up</Link> */}

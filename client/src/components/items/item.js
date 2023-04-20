@@ -31,7 +31,8 @@ function Item () {
 
   return (
     <div className="card-container">
-    {products.map(product => (
+      {products.length > 0 &&
+        products.map(product => (
       <div className="card" key={product.id}>
             <div className="card-content">
                 <h2>{product.name}</h2>
