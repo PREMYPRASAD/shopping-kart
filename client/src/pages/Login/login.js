@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import './login.css'
@@ -6,26 +6,30 @@ import config from "../../utils/config.json";
 import axios from "axios";
 import Navbar from "../../components/Navbar/navbar";
 import { useNavigate } from "react-router-dom";
+//import { Outlet } from "react-router-dom";
+
  function Login () {
     const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
-const [authenticated, setauthenticated] = useState(false);
+   const [pass, setPass] = useState('');
+   const[isLogged, setIsLogged] = useState(false);
+
   const navigate = useNavigate();
-    
+    axios.defaults.withCredentials = true;
      const login = async(e) => {
          e.preventDefault();
          try {
              const response = await axios.post(`${config.api_base_url}/user/enter`, { username: email, password: pass })
          console.log("login",response);
       if (response.status === 200) {
-        if (response.data.message ==='success') {
-          setauthenticated(true);
-          navigate("/home", { replace: true })
+        if (response.data.message) {
+          alert("Invalid credentials");
+        
           //navigate("/home");
           
         } else {
-          alert("Invalid credentials");
           
+          setIsLogged(true);
+          navigate("/home");
         }
       } else {
         alert("Request failed");
@@ -34,12 +38,19 @@ const [authenticated, setauthenticated] = useState(false);
       console.error(error);
     }
   };
-   
+   useEffect(() => {
+    axios.get(`${config.api_base_url}user/login`).then((response) => {
+      console.log(response)
+      if (response.data.loggedIn === true) {
+        setIsLogged(true); // update login status
+      }
+    });
+  }, []);
      
 
    return (
      <div>
-       <Navbar />
+       <Navbar  isLogged={setIsLogged} />
        <div className="container">
          <form className="form" onSubmit={login}>
          <h2>Login</h2>

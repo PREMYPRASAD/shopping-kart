@@ -4,7 +4,8 @@ const {
 
   
   addUser,
-getUserDetails
+  getUserDetails,
+getUserLogout
 } = require("../controllers/user");
 
 
@@ -12,4 +13,5 @@ getUserDetails
 // POST
 router.post("/enter", addUser);
 router.get("/get", getUserDetails);
+router.post("/", getUserLogout);
 module.exports = router;
