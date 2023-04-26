@@ -38,11 +38,11 @@ const addUser = async (req, res) => {
 //     res.send("Error " + err);
 //   }
 // };
-    if (response) {
-        req.session.user = result;
+    if (result.length>0) {
+        req.session.user = result[0];
         console.log(req.session.user);
-        res.send(result);
-        res.redirect('/home')
+        res.send(result[0]);
+        // res.redirect('/home')
       } else {
         res.send({ message: "Wrong username/password combination!" });
       }

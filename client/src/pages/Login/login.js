@@ -1,56 +1,47 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import './login.css'
-import config from "../../utils/config.json";
-import axios from "axios";
+// import config from "../../utils/config.json";
+// import axios from "axios";
+import { loginRequest } from '../../redux/action/UserAction';
+import { connect } from 'react-redux';
 import Navbar from "../../components/Navbar/navbar";
 import { useNavigate } from "react-router-dom";
 //import { Outlet } from "react-router-dom";
 
- function Login () {
+ function Login (props) {
     const [email, setEmail] = useState('');
    const [pass, setPass] = useState('');
-   const[isLogged, setIsLogged] = useState(false);
+  //  const[isLogged, setIsLogged] = useState(false);
 
   const navigate = useNavigate();
-    axios.defaults.withCredentials = true;
-     const login = async(e) => {
-         e.preventDefault();
-         try {
-             const response = await axios.post(`${config.api_base_url}/user/enter`, { username: email, password: pass })
-         console.log("login",response);
-      if (response.status === 200) {
-        if (response.data.message) {
-          alert("Invalid credentials");
+    // axios.defaults.withCredentials = true;
+    //  const login = async(e) => {
+    //      e.preventDefault();
+    //      try {
+    //          const response = await axios.post(`${config.api_base_url}/user/enter`, { username: email, password: pass })
+    //      console.log("login",response);
+    //   if (response.status === 200) {
+    //     if (response.data.message) {
+    //       alert("Invalid credentials");
         
           //navigate("/home");
           
-        } else {
-          
-          setIsLogged(true);
-          navigate("/home");
-        }
-      } else {
-        alert("Request failed");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  //      
+   const login = (event) => {
+    event.preventDefault();
+    props.dispatch(loginRequest(email, pass));
   };
-   useEffect(() => {
-    axios.get(`${config.api_base_url}user/login`).then((response) => {
-      console.log(response)
-      if (response.data.loggedIn === true) {
-        setIsLogged(true); // update login status
-      }
-    });
-  }, []);
+  if (props.loginStatus) {
+    navigate('/home');
+  }
+
      
 
    return (
      <div>
-       <Navbar  isLogged={setIsLogged} />
+       <Navbar  />
        <div className="container">
          <form className="form" onSubmit={login}>
          <h2>Login</h2>
@@ -81,7 +72,11 @@ import { useNavigate } from "react-router-dom";
      </div>
    );
 }
-export default Login
+const mapStateToProps = (state) => ({
+  loginStatus: state.user.loginStatus,
+});
+
+export default connect(mapStateToProps)(Login);
 
 
 
